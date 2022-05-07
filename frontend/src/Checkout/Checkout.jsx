@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
-import { fetchFromAPI } from './helpers';
+import { fetchFromAPI } from '../helpers';
 
 export default function Checkout() {
   const stripe = useStripe();
