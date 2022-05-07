@@ -4,7 +4,9 @@ import {
   BrowserRouter as Router, Switch, Route, Link,
 } from 'react-router-dom';
 
-import { Checkout, CheckoutSuccess, CheckoutFail } from './Checkout';
+import CheckoutSuccess from './ChecoutSuccess';
+import CheckoutFail from './CheckoutFail';
+import Checkout from './Checkout';
 import Payments from './Payments';
 import Customers from './Customers';
 import Subscriptions from './Subscriptions';
