@@ -19,7 +19,7 @@ export default function Checkout() {
     setProduct({ ...product, quantity: Math.max(0, product.quantity + event) });
   };
 
-  const handleClick = async (event) => {
+  const handleClick = async () => {
     const body = { line_items: [product] };
 
     const { id: sessionId } = await fetchFromAPI('checkouts', {
