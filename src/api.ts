@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import express, { Request, Response, NextFunction } from 'express';
+import express, {
+  Request, Response, NextFunction,
+} from 'express';
 import cors from 'cors';
 import { createStripeCheckoutSession } from './checkout';
+import createPaymentIntent from './payments';
 
 export const app = express();
 
@@ -24,5 +27,14 @@ app.post(
   '/checkouts/',
   runAsync(async ({ body }: Request, res: Response) => {
     res.send(await createStripeCheckoutSession(body.line_items));
-  })
+  }),
+);
+
+app.post(
+  '/payments',
+  runAsync(async ({ body }: Request, res: Response) => {
+    res.send(
+      await createPaymentIntent(body.amount),
+    );
+  }),
 );
