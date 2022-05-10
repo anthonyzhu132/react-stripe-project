@@ -5,6 +5,7 @@ import express, {
 import cors from 'cors';
 import { createStripeCheckoutSession } from './checkout';
 import createPaymentIntent from './payments';
+import { handleStripeWebhook } from './webhooks';
 
 export const app = express();
 
@@ -44,3 +45,5 @@ app.post(
     );
   }),
 );
+
+app.post('/hooks', runAsync(handleStripeWebhook));
