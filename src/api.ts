@@ -11,6 +11,12 @@ export const app = express();
 app.use(express.json());
 app.use(cors({ origin: true }));
 
+app.use(
+  express.json({
+    verify: (req, res, buffer) => (req.rawBody = buffer),
+  }),
+);
+
 function runAsync(callback: Function) {
   return (req: Request, res: Response, next: NextFunction) => {
     callback(req, res, next).catch(next);
