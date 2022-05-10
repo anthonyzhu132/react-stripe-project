@@ -1,6 +1,15 @@
 import Stripe from 'stripe';
 import { stripe } from './index';
 
+const webhookHandlers = {
+  'payment_intent.succeeded': async (data: Stripe.PaymentIntent) => {
+    console.log('success filler data')
+  },
+  'payment_intent.faled': async (data: Stripe.PaymentIntent) => {
+    console.log('failed filler data')
+  }
+}
+
 
 export const handleStripeWebhook = asnyc(req, res) => {
   const sig = req.headers['stripe-signature'];
