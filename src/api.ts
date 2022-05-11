@@ -6,6 +6,7 @@ import cors from 'cors';
 import { createStripeCheckoutSession } from './checkout';
 import createPaymentIntent from './payments';
 import { handleStripeWebhook } from './webhooks';
+import { createSetupIntent } from './customers';
 
 export const app = express();
 
@@ -43,6 +44,16 @@ app.post(
     res.send(
       await createPaymentIntent(body.amount),
     );
+  }),
+);
+
+// Save card onto file with setupIntent
+app.post(
+  '/wallet',
+  runAsync(async (req: Request, res: Response) => {
+    const user = validateUser(req);
+    const setupIntent = await createSetupIntent(user.uid);
+    res.send(setupIntent);
   }),
 );
 
