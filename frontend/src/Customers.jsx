@@ -35,7 +35,25 @@ export function SignOut({ user }) {
 }
 
 function CreditCard({ card }) {
+  const {
+    last4, brand, exp_month, exp_year,
+  } = card;
 
+  return (
+    <option>
+      {brand}
+      {' '}
+      **** **** ****
+      {' '}
+      {last4}
+      {' '}
+      expires
+      {' '}
+      {exp_month}
+      /
+      {exp_year}
+    </option>
+  );
 }
 
 export function SaveCard() {
