@@ -6,7 +6,7 @@ import cors from 'cors';
 import { createStripeCheckoutSession } from './checkout';
 import createPaymentIntent from './payments';
 import { handleStripeWebhook } from './webhooks';
-import { createSetupIntent } from './customers';
+import { createSetupIntent, listPaymentMethods } from './customers';
 
 export const app = express();
 
@@ -56,5 +56,12 @@ app.post(
     res.send(setupIntent);
   }),
 );
+
+// Retrieve all saved cards on file
+app.get('/wallet', runAsync(async (req: Request, res: Response) => {
+  const user = validateUser(req);
+  const wallet = await listPaymentMethods(user.uid);
+  res.send(wallet.data);
+}));
 
 app.post('/hooks', runAsync(handleStripeWebhook));
