@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import stripe from '.';
 import { db } from './firebase';
 
-export default async function getOrCreateCustomer(userId: string, params?: Stripe.CustomerCreateParams) {
+export async function getOrCreateCustomer(userId: string, params?: Stripe.CustomerCreateParams) {
   // Query for user if it exists
   const userSnapshot = await db.collection('users').doc(userId);
 
@@ -22,4 +22,23 @@ export default async function getOrCreateCustomer(userId: string, params?: Strip
     return customer;
   }
   return await stripe.customers.retrieve(stripeCustomerId) as Stripe.Customer;
+}
+
+// Creates intent to use a saved credit card on file
+export async function createSetupIntent(userId: string) {
+  const customer = await getOrCreateCustomer(userId);
+
+  return stripe.setupIntents.create({
+    customer: customer.id,
+  });
+}
+
+// Returns all credit cards saved on file for user
+export async function listPaymentMethods(userId: string) {
+  const customer = await getOrCreateCustomer(userId);
+
+  return stripe.paymentMethods.list({
+    customer: customer.id,
+    type: 'card',
+  });
 }
