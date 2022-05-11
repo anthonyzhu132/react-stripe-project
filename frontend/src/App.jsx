@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router, Switch, Route, Link,
 } from 'react-router-dom';
 
-import { FirebaseAppProvider } from 'reactfire';
 import CheckoutSuccess from './Checkout/ChecoutSuccess';
 import CheckoutFail from './Checkout/CheckoutFail';
 import Checkout from './Checkout/Checkout';
