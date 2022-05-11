@@ -66,5 +66,22 @@ export function SaveCard() {
     event.preventDefault();
 
     const cardElement = elements.getElement(CardElement);
+
+    // Confirming Card Details
+    const {
+      setupIntent: updatedSetupIntent,
+      error,
+    } = await stripe.confirmCardSetup(setupIntent.client_secret, {
+      payment_method: { card: cardElement },
+    });
+
+    if (error) {
+      alert(error.message);
+      console.error(error);
+    } else {
+      setSetupIntent(updatedSetupIntent);
+      await getWallet();
+      alert('Success! Card added to your wallet');
+    }
   };
 }
