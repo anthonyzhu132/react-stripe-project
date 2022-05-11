@@ -34,6 +34,10 @@ export function SignOut({ user }) {
   );
 }
 
+function CreditCard({ card }) {
+
+}
+
 export function SaveCard() {
   const stripe = useStripe();
   const elements = useElements();
@@ -84,4 +88,42 @@ export function SaveCard() {
       alert('Success! Card added to your wallet');
     }
   };
+
+  return (
+    <div>
+      <AuthCheck fallback={<SignIn />}>
+        <div>
+
+          <button
+            type="button"
+            onClick={createSetupIntent}
+            hidden={setupIntent}
+          >
+            Attach New Credit Card
+          </button>
+        </div>
+        <hr />
+
+        <form onSubmit={handleSubmit}>
+
+          <CardElement />
+          <button type="submit">
+            Attach
+          </button>
+        </form>
+
+        <div>
+          <h3>Retrieve all Payment Sources</h3>
+          <select>
+            {wallet.map((paymentSource) => (
+              <CreditCard key={paymentSource.id} card={paymentSource.card} />
+            ))}
+          </select>
+        </div>
+        <div>
+          <SignOut user={user} />
+        </div>
+      </AuthCheck>
+    </div>
+  );
 }
